@@ -1,0 +1,26 @@
+import os
+from fbchat_muqit import Client
+from fbchat_muqit.models import Message
+
+class AriesBot(Client):
+    def on_message(self, mid, author_id, message_object):
+        self.mark_as_seen(author_id)
+        text = message_object.text
+        if not text:
+            return
+        if "hello" in text.lower():
+            self.send(Message(text="Hey there! 👋"), thread_id=author_id, thread_type=1)
+        elif "help" in text.lower():
+            self.send(Message(text="I'm Aries Bot!"), thread_id=author_id, thread_type=1)
+        else:
+            self.send(Message(text=f"You said: {text}"), thread_id=author_id, thread_type=1)
+
+if __name__ == "__main__":
+    email = os.getenv("rogelio61_519@zzwin.lat")
+    password = os.getenv("Okpopo09")
+    if not email or not password:
+        print("Error: rogelio61_519@zzwin.lat and Okpopo09 required")
+        exit(1)
+    bot = AriesBot(email, password)
+    print("Bot started, listening for messages...")
+    bot.listen()
